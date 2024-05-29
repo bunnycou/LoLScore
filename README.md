@@ -5,4 +5,4 @@ You can host this app yourself or you can use my online hosted version!
 
 `http://lolscore.cottoncarrot.net/na/<username>/<tag>`
 
-Currently only supports NA
+Should support all regions across Americas, Europe, and Asia

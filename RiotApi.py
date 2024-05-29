@@ -5,21 +5,21 @@ from math import floor
 KEY = open("key.txt").readline()
 
 def api_account(user, tag):
-    return f"https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{user}/{tag}?api_key={KEY}"
+    return f"https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{user}/{tag}?api_key={KEY}" #region does not matter for account
 
-def api_matches(puuid):
+def api_matches(region, puuid):
     curTime = floor(time())
-    return f"https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?startTime={curTime-86400}&endTime={curTime}&type=ranked&api_key={KEY}"
+    return f"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?startTime={curTime-86400}&endTime={curTime}&type=ranked&api_key={KEY}"
 
-def api_match(id):
-    return f"https://americas.api.riotgames.com/lol/match/v5/matches/{id}?api_key={KEY}"
+def api_match(region, id):
+    return f"https://{region}.api.riotgames.com/lol/match/v5/matches/{id}?api_key={KEY}"
 
-def matches(puuid):
-    req = get(api_matches(puuid))
+def matches(region, puuid):
+    req = get(api_matches(region, puuid))
     if (req.ok):
         matchlist = req.json()
         for i in range(len(matchlist)):
-            matchlist[i] = match(matchlist[i])
+            matchlist[i] = match(region, matchlist[i])
 
         curTime = time()*1000
         if ((curTime - (7200*1000)) > matchlist[0]["info"]["gameCreation"]):
@@ -36,8 +36,8 @@ def matches(puuid):
     else:
         return "err"
 
-def match(id):
-    req = get(api_match(id))
+def match(region, id):
+    req = get(api_match(region, id))
     if (req.ok):
         return req.json()
     else:
@@ -50,12 +50,24 @@ def getpuuid(user, tag):
     else:
         return "err"
     
-def getWL(user, tag):
+def getWL(region, user, tag):
     win = 0
     loss = 0
 
+    region = region.lower()
+
+    if region in ["na", "br", "lan", "las"]:
+        region = "americas"
+    elif region in ["eune", "euw", "tr", "ru", "eu"]:
+        region = "europe"
+    elif region in ["kr", "jp", "asia"]:
+        region = "asia"
+    elif region in ["oce", "ph2", "sg2", "th2", "tw2", "vn2", "sea"]:
+        region = "sea"
+    else: region = "americas" # default to americas
+
     puuid = getpuuid(user, tag)
-    userMatches = matches(puuid)
+    userMatches = matches(region, puuid)
 
     if matches == "err":
         return 0,0
