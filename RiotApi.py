@@ -56,9 +56,9 @@ def getWL(region, user, tag):
 
     region = region.lower()
 
-    if region in ["na", "br", "lan", "las"]:
+    if region in ["na", "br", "lan", "las", "americas"]:
         region = "americas"
-    elif region in ["eune", "euw", "tr", "ru", "eu"]:
+    elif region in ["eune", "euw", "tr", "ru", "eu", "europe"]:
         region = "europe"
     elif region in ["kr", "jp", "asia"]:
         region = "asia"
