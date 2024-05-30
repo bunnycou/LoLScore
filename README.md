@@ -1,7 +1,7 @@
 # LoLScore
-## Display Wins and Losses in an OBS Browser source
+## Display Ranked Leauge of Legends Wins and Losses in an OBS Browser source
 
-You can host this app yourself or you can use my online hosted version!
+You can host this app yourself or you can use my online hosted version (lolscore.carrotbyte.net)
 
 Just add the following link as an OBS browser source!
 
