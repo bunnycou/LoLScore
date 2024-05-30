@@ -3,6 +3,8 @@
 
 You can host this app yourself or you can use my online hosted version!
 
+Just add the following link as an OBS browser source!
+
 `http://lolscore.cottoncarrot.net/<region>/<username>/<tag>`
 
 You can add /kd to the end to also display K/D
