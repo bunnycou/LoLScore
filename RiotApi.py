@@ -76,6 +76,8 @@ def getWL(region, user, tag):
         return 0,0
     else:
         for minfo in userMatches:
+            if minfo["info"]["gameDuration"] < 900: # game is less than 15 mintues (remake)
+                break
             for participant in minfo["info"]["participants"]:
                 if participant["puuid"] == puuid:
                     if participant["win"]:
