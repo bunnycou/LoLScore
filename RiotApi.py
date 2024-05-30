@@ -50,9 +50,11 @@ def getpuuid(user, tag):
     else:
         return "err"
     
-def getWL(region, user, tag):
+def getWLKD(region, user, tag):
     win = 0
     loss = 0
+    kills = 0
+    deaths = 0
 
     region = region.lower()
 
@@ -70,19 +72,21 @@ def getWL(region, user, tag):
     userMatches = matches(region, puuid)
 
     if matches == "err":
-        return 0,0
+        return 0,0,0,0
 
     if len(userMatches) == 0:
-        return 0,0
+        return 0,0,0,0
     else:
         for minfo in userMatches:
             if minfo["info"]["gameDuration"] < 900: # game is less than 15 mintues (remake)
                 break
             for participant in minfo["info"]["participants"]:
                 if participant["puuid"] == puuid:
+                    kills += participant["kills"]
+                    deaths += participant["deaths"]
                     if participant["win"]:
                         win += 1
                     else:
                         loss += 1
                     break
-        return win, loss
+        return win, loss, kills, deaths
