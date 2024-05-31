@@ -21,6 +21,8 @@ def matches(region, puuid):
         if len(matchlist) == 0: return [] # no ranked matches
         for i in range(len(matchlist)):
             matchlist[i] = match(region, matchlist[i])
+            if matchlist[i] == "err":
+                return "err"
 
         curTime = time()*1000
         if ((curTime - (7200*1000)) > matchlist[0]["info"]["gameCreation"]):
@@ -28,7 +30,6 @@ def matches(region, puuid):
         else:
             startOfSession = len(matchlist)-1
             for i in range(len(matchlist)-1):
-                print(matchlist[i]["info"]["gameCreation"], matchlist[i+1]["info"]["gameCreation"])
                 if ((matchlist[i]["info"]["gameCreation"] - 7200*1000) > matchlist[i+1]["info"]["gameCreation"]):
                     startOfSession = i
                     break
@@ -70,15 +71,20 @@ def getWLKD(region, user, tag):
     else: region = "americas" # default to americas
 
     puuid = getpuuid(user, tag)
+
+    if puuid == "err":
+        return 0,0,0,0
+
     userMatches = matches(region, puuid)
 
-    if matches == "err":
+    if userMatches == "err":
         return 0,0,0,0
 
     if len(userMatches) == 0:
         return 0,0,0,0
     else:
         for minfo in userMatches:
+            # print(minfo)
             if minfo["info"]["gameDuration"] < 900: # game is less than 15 mintues (remake)
                 break
             for participant in minfo["info"]["participants"]:
