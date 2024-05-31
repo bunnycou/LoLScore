@@ -18,6 +18,7 @@ def matches(region, puuid):
     req = get(api_matches(region, puuid))
     if (req.ok):
         matchlist = req.json()
+        if len(matchlist) == 0: return [] # no ranked matches
         for i in range(len(matchlist)):
             matchlist[i] = match(region, matchlist[i])
 
