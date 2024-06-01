@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 from markupsafe import escape
 from api import getWLKD
 
@@ -16,3 +16,7 @@ def userWLKD(region, user, tag):
     win, loss, kills, deaths = getWLKD(region, user, tag)
     #return f"<p>{win}W {loss}L {kills}K {deaths}D</p>"
     return render_template("scorekd.html", win=win, loss=loss, kills=kills, deaths=deaths)
+
+@app.route("/")
+def home():
+    return redirect("https://github.com/bunnycou/lolscore")
