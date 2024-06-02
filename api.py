@@ -86,7 +86,7 @@ def getWLKD(region, user, tag):
         for minfo in userMatches:
             # print(minfo)
             if minfo["info"]["gameDuration"] < 900: # game is less than 15 mintues (remake)
-                break
+                continue
             for participant in minfo["info"]["participants"]:
                 if participant["puuid"] == puuid:
                     kills += participant["kills"]
