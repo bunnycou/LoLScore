@@ -19,4 +19,4 @@ def userWLKD(region, user, tag):
 
 @app.route("/")
 def home():
-    return redirect("https://github.com/bunnycou/lolscore")
+    return render_template("index.html")
