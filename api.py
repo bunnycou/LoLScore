@@ -7,30 +7,30 @@ KEY = open("key.txt").readline()
 def api_account(user, tag):
     return f"https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{user}/{tag}?api_key={KEY}" #region does not matter for account
 
-def api_matches(region, puuid):
+def api_matches(region, puuid, gameType, queue):
     curTime = floor(time())
-    return f"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?startTime={curTime-86400}&endTime={curTime}&type=ranked&api_key={KEY}"
+    return f"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?startTime={curTime-86400}&endTime={curTime}&type={gameType}&queue={queue}&api_key={KEY}"
 
 def api_match(region, id):
     return f"https://{region}.api.riotgames.com/lol/match/v5/matches/{id}?api_key={KEY}"
 
-def matches(region, puuid):
-    req = get(api_matches(region, puuid))
+def matches(region, puuid, gameType, queue):
+    req = get(api_matches(region, puuid, gameType, queue))
     if (req.ok):
         matchlist = req.json()
-        if len(matchlist) == 0: return [] # no ranked matches
+        if len(matchlist) == 0: return [] # no matches
         for i in range(len(matchlist)):
             matchlist[i] = match(region, matchlist[i])
             if matchlist[i] == "err":
                 return "err"
 
         curTime = time()*1000
-        if ((curTime - (7200*1000)) > matchlist[0]["info"]["gameCreation"]):
+        if ((curTime - (10800*1000)) > matchlist[0]["info"]["gameCreation"]): # if most recent match is not within 3 hours
             return []
         else:
             startOfSession = len(matchlist)-1
             for i in range(len(matchlist)-1):
-                if ((matchlist[i]["info"]["gameCreation"] - 7200*1000) > matchlist[i+1]["info"]["gameCreation"]):
+                if ((matchlist[i]["info"]["gameCreation"] - 10800*1000) > matchlist[i+1]["info"]["gameCreation"]): # gap greater than 3 hours between matches
                     startOfSession = i
                     break
 
@@ -52,7 +52,7 @@ def getpuuid(user, tag):
     else:
         return "err"
     
-def getWLKD(region, user, tag):
+def getWLKD(region, user, tag, gameType):
     win = 0
     loss = 0
     kills = 0
@@ -70,12 +70,24 @@ def getWLKD(region, user, tag):
         region = "sea"
     else: region = "americas" # default to americas
 
+    queue = 1700 # default ranked, 400 for norm, 450 for aram
+
+    if gameType in ["ranked", "rank"]: # catch for ranked just in case
+        gameType = "ranked"
+        queue = "1700"
+    elif gameType in ["aram"]: # catch for aram alternate names
+        gameType = "normal"
+        queue = "450"
+    elif gameType in ["normal", "normals", "norm", "norms", "draft"]:
+        gameType = "normal"
+        queue = "400"
+
     puuid = getpuuid(user, tag)
 
     if puuid == "err":
         return 0,0,0,0
 
-    userMatches = matches(region, puuid)
+    userMatches = matches(region, puuid, gameType, queue)
 
     if userMatches == "err":
         return 0,0,0,0
@@ -85,7 +97,7 @@ def getWLKD(region, user, tag):
     else:
         for minfo in userMatches:
             # print(minfo)
-            if minfo["info"]["gameDuration"] < 900: # game is less than 15 mintues (remake)
+            if minfo["info"]["gameDuration"] < 660: # game is less than 11 mintues (remake)
                 continue
             for participant in minfo["info"]["participants"]:
                 if participant["puuid"] == puuid:

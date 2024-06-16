@@ -49,7 +49,7 @@
                             <label for="region">Major Region</label>
                         </td>
                         <td>
-                            <select name="region">
+                            <select name="region" class="input">
                                 <option value="americas">Americas</option>
                                 <option value="europe">Europe</option>
                                 <option value="asia">Asia</option>
@@ -62,7 +62,7 @@
                             <label for="name">Username</label>
                         </td>
                         <td>
-                            <input type="text" name="name" value="username"/>
+                            <input type="text" name="name" value="username" class="input"/>
                         </td>
                     </tr>
                     <tr>
@@ -70,7 +70,19 @@
                             <label for="tag">Tag</label>
                         </td>
                         <td>
-                            <input name="tag" value="na1" type="text" maxlength="5"/>
+                            <input name="tag" value="na1" type="text" maxlength="5" class="input"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="mode">Tag</label>
+                        </td>
+                        <td>
+                            <select name="mode" class="input">
+                                <option value="ranked">ranked</option>
+                                <option value="normal">normal</option>
+                                <option value="aram">aram</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>
@@ -78,7 +90,7 @@
                             <label for="kd">KD?</label>
                         </td>
                         <td>
-                            <input type="checkbox" name="kd"/>
+                            <input type="checkbox" name="kd" class="input"/>
                         </td>
                     </tr>
                 </table>
@@ -94,19 +106,18 @@
         </div>
 
         <script>
-            Array.from(document.getElementsByTagName("input")).forEach(element => {
+            Array.from(document.getElementsByClassName("input")).forEach(element => {
                 element.addEventListener("input", updateURL)
-            });
-
-            document.getElementsByName("region")[0].addEventListener("change", updateURL)
+            })
 
             function updateURL() {
                 let region = document.getElementsByName("region")[0].value;
                 let username = document.getElementsByName("name")[0].value;
                 let tag = document.getElementsByName("tag")[0].value;
+                let mode = document.getElementsByName("mode")[0].value;
                 let kd = document.getElementsByName("kd")[0].checked;
 
-                let url = `http://lolscore.carrotbyte.net/${region}/${username}/${tag}`
+                let url = `http://lolscore.carrotbyte.net/${region}/${username}/${tag}/${mode}`
 
                 if (kd) { url += "/kd"}
 
