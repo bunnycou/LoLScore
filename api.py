@@ -66,7 +66,7 @@ def getWLKD(region, user, tag, gameType):
         region = "europe"
     elif region in ["kr", "jp", "asia"]:
         region = "asia"
-    elif region in ["oce", "ph2", "sg2", "th2", "tw2", "vn2", "sea"]:
+    elif region in ["sea", "oceania", "oce", "ph2", "sg2", "th2", "tw2", "vn2"]:
         region = "sea"
     else: region = "americas" # default to americas
 

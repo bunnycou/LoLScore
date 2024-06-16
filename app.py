@@ -4,13 +4,13 @@ from api import getWLKD
 
 app = Flask(__name__)
 
-@app.route("/<region>/<user>/<tag>") # legacy/shorthand
+@app.route("/<region>/<user>/<tag>") # legacy/ranked shorthand
 def rankedWL(region, user, tag):
     print(f"Returning ranked WL for {user}#{tag}")
     win, loss, kills, deaths = getWLKD(region.lower(), user.lower(), tag.lower(), "ranked")
     return render_template("score.html", win=win, loss=loss)
 
-@app.route("/<region>/<user>/<tag>/kd") # legacy/shorthand
+@app.route("/<region>/<user>/<tag>/kd") # legacy/ranked shorthand
 def rankedWLWLKD(region, user, tag):
     print(f"Returning ranked WLKD for {user}#{tag}")
     win, loss, kills, deaths = getWLKD(region.lower(), user.lower(), tag.lower(), "ranked")

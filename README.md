@@ -1,23 +1,28 @@
 # LoLScore
 ## Display Ranked Leauge of Legends Wins and Losses in an OBS Browser source
 
-You can host this app yourself or you can use my online hosted version (lolscore.carrotbyte.net)
+### URL Generator available at [lolscore.carrotbyte.net](http://lolscore.carrotbyte.net/)
 
-Just add the following link as an OBS browser source!
+You can host this app yourself or you can use my online hosted version ([lolscore.carrotbyte.net](http://lolscore.carrotbyte.net/))
 
-`http://lolscore.carrotbyte.net/<region>/<username>/<tag>`
+Just add the following link as an OBS browser source
+
+`http://lolscore.carrotbyte.net/<region>/<username>/<tag>/<mode>`
 
 You can add /kd to the end to also display K/D
 
-`http://lolscore.carrotbyte.net/<region>/<username>/<tag>/kd`
+`http://lolscore.carrotbyte.net/<region>/<username>/<tag>/<mode>/kd`
 
-Should support all regions across Americas, Europe, and Asia
+Supports most region values (americas, na1, na, europe, euw, eune, eun, etc.). When in doubt it can be easier to use `na`, `eu`, `asia`, or `sea`; for your region input based on your major region. 
+Should support all regions across Americas, Europe, Asia, and Oceania (sea).
 
-Supports all region values. When in doubt it can be easier to use `na`, `eu`, `asia`, or `sea`; for your region input based on your major region. 
+Supports `ranked`, `normals`, and `aram` for the mode
 
-Example for Doublelift since he, at the time of making, is streaming daily to reach challenger, so this page will usually display some information as long as he is streaming or streamed recently
+Check out the [homepage](http://lolscore.carrotbyte.net/) to help you generate a url
 
-`http://lolscore.carrotbyte.net/na/doublelift/na1/kd`
+Example for Doublelift since he, at the time of making, is streaming daily to reach rank 1, so this page will usually display some information as long as he is streaming or streamed recently
+
+`http://lolscore.carrotbyte.net/na/doublelift/na1/ranked/kd`
 
 ### Why LoLScore over alternatives like Lobobot?
 LoLScore is 100% free with no watermarks and extremely easy to use, absolutely zero extra input or setup apart from entering a URL into an obs browser source. 
