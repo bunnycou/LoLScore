@@ -73,11 +73,14 @@ def getWLKD(region, user, tag, gameType):
         region = "sea"
     else: region = "americas" # default to americas
 
-    queue = 1700 # default ranked, 400 for norm, 450 for aram
+    queue = 420 # default ranked, 400 for norm, 450 for aram
 
     if gameType in ["ranked", "rank"]: # catch for ranked just in case
         gameType = "ranked"
-        queue = "1700"
+        queue = "420"
+    elif gameType in ["flex"]:
+        gameType = "ranked"
+        queue = "440"
     elif gameType in ["aram"]: # catch for aram alternate names
         gameType = "normal"
         queue = "450"
