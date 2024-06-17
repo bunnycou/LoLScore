@@ -7,15 +7,15 @@ KEY = open("key.txt").readline()
 def api_account(user, tag):
     return f"https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{user}/{tag}?api_key={KEY}" #region does not matter for account
 
-def api_matches(region, puuid, gameType, queue):
+def api_matches(region, puuid, queue):
     curTime = floor(time())
-    return f"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?startTime={curTime-86400}&endTime={curTime}&type={gameType}&queue={queue}&api_key={KEY}"
+    return f"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?startTime={curTime-86400}&endTime={curTime}&queue={queue}&api_key={KEY}"
 
 def api_match(region, id):
     return f"https://{region}.api.riotgames.com/lol/match/v5/matches/{id}?api_key={KEY}"
 
-def matches(region, puuid, gameType, queue):
-    req = get(api_matches(region, puuid, gameType, queue))
+def matches(region, puuid, queue):
+    req = get(api_matches(region, puuid, queue))
     if (req.ok):
         matchlist = req.json()
         if len(matchlist) == 0: return [] # no matches
@@ -76,24 +76,22 @@ def getWLKD(region, user, tag, gameType):
     queue = 420 # default ranked, 400 for norm, 450 for aram
 
     if gameType in ["ranked", "rank"]: # catch for ranked just in case
-        gameType = "ranked"
         queue = "420"
     elif gameType in ["flex"]:
-        gameType = "ranked"
         queue = "440"
     elif gameType in ["aram"]: # catch for aram alternate names
-        gameType = "normal"
         queue = "450"
     elif gameType in ["normal", "normals", "norm", "norms", "draft"]:
-        gameType = "normal"
         queue = "400"
+    elif gameType in ["arena"]:
+        queue = "1700"
 
     puuid = getpuuid(user, tag)
 
     if puuid == "err":
         return 0,0,0,0
 
-    userMatches = matches(region, puuid, gameType, queue)
+    userMatches = matches(region, puuid, queue)
 
     if userMatches == "err":
         return 0,0,0,0
