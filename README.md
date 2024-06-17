@@ -16,7 +16,7 @@ You can add /kd to the end to also display K/D
 Supports most region values (americas, na1, na, europe, euw, eune, eun, etc.). When in doubt it can be easier to use `na`, `eu`, `asia`, or `sea`; for your region input based on your major region. 
 Should support all regions across Americas, Europe, Asia, and Oceania (sea).
 
-Supports `ranked`, `normals`, and `aram` for the mode
+Supports `ranked`, `flex`, `normals`, `aram`, and `arena` for the mode. If your mode is not listed as supported, using the queue id instead of mode name will work as well. Find the queue IDs for all mods [here](https://static.developer.riotgames.com/docs/lol/queues.json)
 
 Check out the [homepage](http://lolscore.carrotbyte.net/) to help you generate a url
 

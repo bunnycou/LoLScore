@@ -85,6 +85,8 @@ def getWLKD(region, user, tag, gameType):
         queue = "400"
     elif gameType in ["arena"]:
         queue = "1700"
+    else:
+        queue = gameType # they entered a queue id number instead of named mode
 
     puuid = getpuuid(user, tag)
 
