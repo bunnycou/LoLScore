@@ -36,7 +36,7 @@ def matches(region, puuid, gameType, queue):
 
             return matchlist[:startOfSession+1]
     else:
-        print("matches - " + req.status_code)
+        print("matches - " + str(req.status_code))
         return "err"
 
 def match(region, id):
@@ -44,7 +44,7 @@ def match(region, id):
     if (req.ok):
         return req.json()
     else:
-        print("match - " + req.status_code)
+        print("match - " + str(req.status_code))
         return "err"
 
 def getpuuid(user, tag):
@@ -52,7 +52,7 @@ def getpuuid(user, tag):
     if (req.ok):
         return req.json()["puuid"]
     else:
-        print("puuid - " + req.status_code)
+        print("puuid - " + str(req.status_code))
         return "err"
     
 def getWLKD(region, user, tag, gameType):
